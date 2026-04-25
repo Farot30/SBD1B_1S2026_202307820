@@ -1,0 +1,11 @@
+FROM container-registry.oracle.com/database/express:21.3.0-xe
+
+# Copiar scripts al directorio de inicializacion de Oracle
+COPY db/init/00_setup.sh /opt/oracle/scripts/startup/
+COPY db/init/01_ddl.sql /opt/oracle/scripts/startup/
+COPY db/init/02_dml.sql /opt/oracle/scripts/startup/
+
+# Dar permisos de ejecucion al script
+USER root
+RUN chmod +x /opt/oracle/scripts/startup/00_setup.sh
+USER oracle
