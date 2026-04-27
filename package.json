@@ -1,0 +1,27 @@
+{
+  "name": "sbd1b_1s2026_202307820",
+  "version": "1.0.0",
+  "description": "**Proyecto SBD1B_1S2026** - Universidad San Carlos de Guatemala",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Farot30/SBD1B_1S2026_202307820.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Farot30/SBD1B_1S2026_202307820/issues"
+  },
+  "homepage": "https://github.com/Farot30/SBD1B_1S2026_202307820#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "oracledb": "^6.10.0"
+  }
+}

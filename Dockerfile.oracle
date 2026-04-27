@@ -1,11 +1,18 @@
 FROM container-registry.oracle.com/database/express:21.3.0-xe
 
-# Copiar scripts al directorio de inicializacion de Oracle
-COPY db/init/00_setup.sh /opt/oracle/scripts/startup/
-COPY db/init/01_ddl.sql /opt/oracle/scripts/startup/
-COPY db/init/02_dml.sql /opt/oracle/scripts/startup/
-
-# Dar permisos de ejecucion al script
 USER root
+
+# Crear directorio propio para los scripts SQL (fuera del directorio de Oracle)
+RUN mkdir -p /opt/scripts
+
+# Copiar SQLs a directorio propio - Oracle NO los ejecuta automaticamente aqui
+COPY db/init/01_ddl.sql       /opt/scripts/01_ddl.sql
+COPY db/init/02a_dml_base.sql /opt/scripts/02a_dml_base.sql
+COPY db/init/02b_dml_persona.sql /opt/scripts/02b_dml_persona.sql
+COPY db/init/02c_dml_evaluacion.sql /opt/scripts/02c_dml_evaluacion.sql
+
+# Copiar SOLO el .sh al directorio de startup de Oracle
+COPY db/init/00_setup.sh /opt/oracle/scripts/startup/00_setup.sh
 RUN chmod +x /opt/oracle/scripts/startup/00_setup.sh
+
 USER oracle

@@ -27,10 +27,16 @@ EXIT;
 EOF
 
 echo ">>> Ejecutando DDL - Creando tablas..."
-sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/oracle/scripts/startup/01_ddl.sql
+sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/01_ddl.sql
 
-echo ">>> Ejecutando DML - Insertando datos..."
-sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/oracle/scripts/startup/02_dml.sql
+echo ">>> Ejecutando DML parte 1 - Datos base..."
+sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02a_dml_base.sql
+
+echo ">>> Ejecutando DML parte 2 - Persona..."
+sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02b_dml_persona.sql
+
+echo ">>> Ejecutando DML parte 3 - Evaluacion y respuestas..."
+sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02c_dml_evaluacion.sql
 
 echo "================================================="
 echo " Esquema cargado exitosamente"

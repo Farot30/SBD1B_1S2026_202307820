@@ -1,8 +1,59 @@
 -- ============================================================
--- DDL - Centros de Evaluacion de Manejo
+-- DDL CORREGIDO - Centros de Evaluacion de Manejo
 -- Universidad San Carlos de Guatemala - SBD1 2026
--- INSTRUCCIONES: Ejecutar con Ctrl+Alt+Enter en DBeaver
--- Si ya existen tablas, ejecutar primero el script de limpieza
+-- ============================================================
+-- CORRECCIONES vs DDL original:
+--  1. Eliminado comando DESCRIBE (no es DDL)
+--  2. Eliminados UNIQUE indexes incorrectos en FK de Evaluacion,
+--     Tramite y Registracion (una persona puede tener varios)
+--  3. Instructor desacoplado de Eva_Prac (no circular)
+--  4. Agregadas columnas Opcion_A/B/C/D y Resp_Correcta en Eva_Teo
+--  5. Nueva tabla Resp_Usuario (respuestas teoricas del evaluado)
+--  6. Nueva tabla Resp_Prac_Usuario (notas practicas del evaluado)
+--  7. Evaluacion referencia Instructor, Esc_Auto y Centro_Eva
+--  8. Referencias circulares resueltas con DEFERRABLE INITIALLY DEFERRED
+-- ============================================================
+
+-- Limpieza previa: cada DROP en bloque propio para ignorar error si no existe
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Resp_Prac_Usuario CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Resp_Usuario CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Evaluacion CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Registracion CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Tramite CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Licencia CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Persona CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Resp_Prac CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Eva_Prac CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Resp_Teo CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Eva_Teo CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Instructor CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Relation_7 CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Centro_Eva CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Municipio CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Personal CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Esc_Auto CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+BEGIN EXECUTE IMMEDIATE 'DROP TABLE Depa CASCADE CONSTRAINTS PURGE'; EXCEPTION WHEN OTHERS THEN NULL; END;
+/
+
+-- ============================================================
+-- TABLAS BASE (sin dependencias externas)
 -- ============================================================
 
 CREATE TABLE Depa (
@@ -19,18 +70,23 @@ CREATE TABLE Personal (
 
 CREATE TABLE Esc_Auto (
   ID_auto      INTEGER      NOT NULL,
-  Nombre       VARCHAR2(35) NOT NULL,
-  Direccion    VARCHAR2(35) NOT NULL,
+  Nombre       VARCHAR2(60) NOT NULL,
+  Direccion    VARCHAR2(60) NOT NULL,
   Num_Autoriza VARCHAR2(35) NOT NULL,
   CONSTRAINT Esc_Auto_PK PRIMARY KEY (ID_auto)
 );
 
+-- Instructor independiente (CORRECCIÓN: ya no referencia Eva_Prac)
 CREATE TABLE Instructor (
   ID_instructor INTEGER       NOT NULL,
   Nombre        VARCHAR2(50)  NOT NULL,
   Dar_Instruc   VARCHAR2(100) NOT NULL,
   CONSTRAINT Instructor_PK PRIMARY KEY (ID_instructor)
 );
+
+-- ============================================================
+-- TABLAS CON DEPENDENCIA SIMPLE
+-- ============================================================
 
 CREATE TABLE Municipio (
   ID_Municipio INTEGER      NOT NULL,
@@ -50,6 +106,7 @@ CREATE TABLE Centro_Eva (
   CONSTRAINT Centro_Eva_Depa_FK FOREIGN KEY (Depa_ID_Depa) REFERENCES Depa(ID_Depa)
 );
 
+-- Relacion N:M Escuela <-> Centro
 CREATE TABLE Relation_7 (
   Esc_Auto_ID_auto     INTEGER NOT NULL,
   Centro_Eva_ID_Centro INTEGER NOT NULL,
@@ -58,6 +115,10 @@ CREATE TABLE Relation_7 (
   CONSTRAINT Relation_7_Centro_Eva_FK  FOREIGN KEY (Centro_Eva_ID_Centro) REFERENCES Centro_Eva(ID_Centro)
 );
 
+-- ============================================================
+-- PREGUNTAS TEORICAS
+-- CORRECCIÓN: agregadas columnas de opciones y respuesta correcta
+-- ============================================================
 CREATE TABLE Eva_Teo (
   ID_Teorica    INTEGER       NOT NULL,
   Texto_Preg    VARCHAR2(200) NOT NULL,
@@ -82,6 +143,10 @@ CREATE TABLE Resp_Teo (
   CONSTRAINT Resp_Teo_Eva_Teo_FK FOREIGN KEY (Eva_Teo_ID_Teorica) REFERENCES Eva_Teo(ID_Teorica)
 );
 
+-- ============================================================
+-- PREGUNTAS PRACTICAS
+-- CORRECCIÓN: sin referencia circular con Instructor
+-- ============================================================
 CREATE TABLE Eva_Prac (
   ID_Practico INTEGER       NOT NULL,
   Descripcion VARCHAR2(200) NOT NULL,
@@ -93,12 +158,18 @@ CREATE TABLE Eva_Prac (
 CREATE TABLE Resp_Prac (
   ID_Practica          INTEGER      NOT NULL,
   Valor_Puntos         INTEGER      NOT NULL,
-  Proce                VARCHAR2(55) NOT NULL,
+  Proce                VARCHAR2(100) NOT NULL,
   Eva_Prac_ID_Practico INTEGER      NOT NULL,
   CONSTRAINT Resp_Prac_PK          PRIMARY KEY (ID_Practica),
   CONSTRAINT Resp_Prac_Eva_Prac_FK FOREIGN KEY (Eva_Prac_ID_Practico) REFERENCES Eva_Prac(ID_Practico)
 );
 
+-- ============================================================
+-- TABLAS CON REFERENCIAS CIRCULARES
+-- Se crean sin FK circular, luego se agregan con DEFERRABLE
+-- ============================================================
+
+-- CORRECCIÓN: eliminado UNIQUE sobre Persona_ID_persona
 CREATE TABLE Licencia (
   ID_Licencia        INTEGER      NOT NULL,
   Tipo_Licencia      VARCHAR2(30) NOT NULL,
@@ -106,6 +177,7 @@ CREATE TABLE Licencia (
   CONSTRAINT Licencia_PK PRIMARY KEY (ID_Licencia)
 );
 
+-- CORRECCIÓN: eliminado UNIQUE sobre Persona_ID_persona
 CREATE TABLE Tramite (
   ID_tramite         INTEGER      NOT NULL,
   Tipo_tramite       VARCHAR2(30) NOT NULL,
@@ -113,13 +185,14 @@ CREATE TABLE Tramite (
   CONSTRAINT Tramite_PK PRIMARY KEY (ID_tramite)
 );
 
+-- CORRECCIÓN: eliminado UNIQUE sobre Persona_ID_persona
 CREATE TABLE Registracion (
   ID_registro        INTEGER NOT NULL,
   Fecha_reg          DATE    NOT NULL,
   Persona_ID_persona INTEGER NOT NULL,
   Esc_Auto_ID_auto   INTEGER NOT NULL,
-  CONSTRAINT Registracion_PK         PRIMARY KEY (ID_registro),
-  CONSTRAINT Registracion_EscAuto_FK FOREIGN KEY (Esc_Auto_ID_auto) REFERENCES Esc_Auto(ID_auto)
+  CONSTRAINT Registracion_PK          PRIMARY KEY (ID_registro),
+  CONSTRAINT Registracion_EscAuto_FK  FOREIGN KEY (Esc_Auto_ID_auto) REFERENCES Esc_Auto(ID_auto)
 );
 
 CREATE TABLE Persona (
@@ -144,6 +217,7 @@ CREATE TABLE Persona (
   CONSTRAINT Persona_Registra_FK  FOREIGN KEY (Registracion_ID_registro) REFERENCES Registracion(ID_registro)   DEFERRABLE INITIALLY DEFERRED
 );
 
+-- FK de vuelta a Persona (circulares)
 ALTER TABLE Licencia
   ADD CONSTRAINT Licencia_Persona_FK
   FOREIGN KEY (Persona_ID_persona) REFERENCES Persona(ID_persona)
@@ -159,6 +233,11 @@ ALTER TABLE Registracion
   FOREIGN KEY (Persona_ID_persona) REFERENCES Persona(ID_persona)
   DEFERRABLE INITIALLY DEFERRED;
 
+-- ============================================================
+-- EVALUACION
+-- CORRECCIÓN: eliminado UNIQUE sobre Persona_ID_persona
+-- Ahora referencia directamente Instructor, Esc_Auto y Centro_Eva
+-- ============================================================
 CREATE TABLE Evaluacion (
   ID_Evalua                INTEGER      NOT NULL,
   Num_Corre                INTEGER      NOT NULL,
@@ -176,17 +255,25 @@ CREATE TABLE Evaluacion (
   CONSTRAINT Evaluacion_Centro_FK      FOREIGN KEY (Centro_Eva_ID_Centro)     REFERENCES Centro_Eva(ID_Centro)
 );
 
+-- ============================================================
+-- NUEVA: RESP_USUARIO
+-- Respuestas teoricas dadas por el evaluado en cada examen
+-- ============================================================
 CREATE TABLE Resp_Usuario (
   ID_Resp_Usuario      INTEGER     NOT NULL,
   Respuesta            VARCHAR2(1) NOT NULL,
   Es_Correcta          VARCHAR2(1),
   Evaluacion_ID_Evalua INTEGER     NOT NULL,
   Eva_Teo_ID_Teorica   INTEGER     NOT NULL,
-  CONSTRAINT Resp_Usuario_PK PRIMARY KEY (ID_Resp_Usuario),
-  CONSTRAINT Resp_Usu_Eva_FK FOREIGN KEY (Evaluacion_ID_Evalua) REFERENCES Evaluacion(ID_Evalua),
-  CONSTRAINT Resp_Usu_Teo_FK FOREIGN KEY (Eva_Teo_ID_Teorica)   REFERENCES Eva_Teo(ID_Teorica)
+  CONSTRAINT Resp_Usuario_PK     PRIMARY KEY (ID_Resp_Usuario),
+  CONSTRAINT Resp_Usu_Eva_FK     FOREIGN KEY (Evaluacion_ID_Evalua) REFERENCES Evaluacion(ID_Evalua),
+  CONSTRAINT Resp_Usu_Teo_FK     FOREIGN KEY (Eva_Teo_ID_Teorica)   REFERENCES Eva_Teo(ID_Teorica)
 );
 
+-- ============================================================
+-- NUEVA: RESP_PRAC_USUARIO
+-- Notas obtenidas por el evaluado en cada ejercicio practico
+-- ============================================================
 CREATE TABLE Resp_Prac_Usuario (
   ID_Resp_Prac         INTEGER NOT NULL,
   Nota_Obtenida        INTEGER NOT NULL,
