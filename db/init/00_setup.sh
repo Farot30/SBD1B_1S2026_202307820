@@ -38,6 +38,9 @@ sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02b_dml
 echo ">>> Ejecutando DML parte 3 - Evaluacion y respuestas..."
 sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02c_dml_evaluacion.sql
 
+echo ">>> Ejecutando DML del Excel..."
+sqlplus centros_db/"${ORACLE_PWD}"@//localhost:1521/XEPDB1 @/opt/scripts/02d_dml_excel_data.sql
+
 echo "================================================="
 echo " Esquema cargado exitosamente"
 echo "================================================="

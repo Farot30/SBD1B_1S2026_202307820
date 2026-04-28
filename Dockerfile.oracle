@@ -11,6 +11,8 @@ COPY db/init/02a_dml_base.sql /opt/scripts/02a_dml_base.sql
 COPY db/init/02b_dml_persona.sql /opt/scripts/02b_dml_persona.sql
 COPY db/init/02c_dml_evaluacion.sql /opt/scripts/02c_dml_evaluacion.sql
 
+COPY db/init/02d_dml_excel_data.sql /opt/scripts/02d_dml_excel_data.sql
+
 # Copiar SOLO el .sh al directorio de startup de Oracle
 COPY db/init/00_setup.sh /opt/oracle/scripts/startup/00_setup.sh
 RUN chmod +x /opt/oracle/scripts/startup/00_setup.sh
