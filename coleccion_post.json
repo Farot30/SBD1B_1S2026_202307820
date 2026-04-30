@@ -1,0 +1,82 @@
+{
+  "info": {
+    "_postman_id": "post-test-2026",
+    "name": "Crear - Centros API (POST)",
+    "description": "Colección POST para crear nuevos registros",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST - Crear Departamento",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ID_Depa\": 50, \"Nombre\": \"Nuevo Departamento\"}"
+        },
+        "url": "http://localhost:3000/api/depa"
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Crear Centro",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ID_Centro\": 10, \"Nombre\": \"Centro Zona 5\", \"Direccion\": \"5 avenida, zona 5\", \"Calificacion\": 4.5, \"Depa_ID_Depa\": 1}"
+        },
+        "url": "http://localhost:3000/api/centro"
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Crear Persona",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ID_persona\": 10, \"Nombre_Comp\": \"Fernando Lopez\", \"Direccion\": \"Calle 5, zona 12\", \"IDE\": \"1234567890101\", \"Telefono\": \"77778888\", \"Genero\": \"M\", \"Fecha_Naci\": \"1992-06-20\", \"Tramite_ID_tramite\": 1, \"Personal_ID_personal\": 1, \"Licencia_ID_Licencia\": 1, \"Registracion_ID_registro\": 1, \"Municipio_ID_Municipio\": 1}"
+        },
+        "url": "http://localhost:3000/api/persona"
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Crear Evaluación",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ID_Evalua\": 10, \"Num_Corre\": \"EV-2026-010\", \"Fech_Eva\": \"2026-04-30\", \"Fase1\": \"PENDIENTE\", \"Fase2\": \"PENDIENTE\", \"Persona_ID_persona\": 1, \"Instructor_ID_instructor\": 1, \"Esc_Auto_ID_auto\": 1, \"Centro_Eva_ID_Centro\": 1}"
+        },
+        "url": "http://localhost:3000/api/evaluacion"
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "info": {
+    "_postman_id": "delete-test-2026",
+    "name": "Eliminar - Centros API (DELETE)",
+    "description": "Colección DELETE para eliminar registros",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "DELETE - Eliminar Persona",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/persona/10"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Eliminar Evaluación",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/evaluacion/10"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Eliminar Centro",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/centro/10"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Eliminar Departamento",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/depa/50"
+      },
+      "response": []
+    }
+  ]
+}

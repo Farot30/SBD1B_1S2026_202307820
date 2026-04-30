@@ -1,0 +1,82 @@
+{
+  "info": {
+    "_postman_id": "put-test-2026",
+    "name": "Actualizar - Centros API (PUT)",
+    "description": "Colección PUT para actualizar registros existentes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "PUT - Actualizar Departamento",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Nombre\": \"Departamento Actualizado\"}"
+        },
+        "url": "http://localhost:3000/api/depa/50"
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Actualizar Centro",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Nombre\": \"Centro Zona 5 Actualizado\", \"Direccion\": \"6 avenida, zona 5\", \"Calificacion\": 5, \"Depa_ID_Depa\": 1}"
+        },
+        "url": "http://localhost:3000/api/centro/10"
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Actualizar Persona",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Nombre_Comp\": \"Fernando Lopez Actualizado\", \"Direccion\": \"Calle 6, zona 12\", \"IDE\": \"1234567890101\", \"Telefono\": \"77779999\", \"Genero\": \"M\", \"Fecha_Naci\": \"1992-06-20\", \"Tramite_ID_tramite\": 1, \"Personal_ID_personal\": 1, \"Licencia_ID_Licencia\": 1, \"Registracion_ID_registro\": 1, \"Municipio_ID_Municipio\": 1}"
+        },
+        "url": "http://localhost:3000/api/persona/10"
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Actualizar Evaluación",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Num_Corre\": \"EV-2026-010\", \"Fech_Eva\": \"2026-04-30\", \"Fase1\": \"APROBADO\", \"Fase2\": \"APROBADO\", \"Persona_ID_persona\": 1, \"Instructor_ID_instructor\": 1, \"Esc_Auto_ID_auto\": 1, \"Centro_Eva_ID_Centro\": 1}"
+        },
+        "url": "http://localhost:3000/api/evaluacion/10"
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "info": {
+    "_postman_id": "simple-get-test-2026",
+    "name": "Prueba GET - Centros API",
+    "description": "Colección simple solo con GET para testing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET - Listar Departamentos",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/depa"
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Listar Centros",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/centro"
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Listar Personas",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/persona"
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Listar Evaluaciones",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/evaluacion"
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Estadísticas Centro",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/consultas/estadisticas-centro"
+      },
+      "response": []
+    }
+  ]
+}
