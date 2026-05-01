@@ -111,3 +111,35 @@ La API expone endpoints para realizar operaciones de Crear, Leer, Actualizar y B
 <p align="center">
  <img src="Evidencia/Consulta3.png" widt>
 </p>
+
+
+
+### Ejemplo de GET
+
+<p align="center">
+ <img src="Evidencia/GET.png" widt>
+</p>
+
+### Ejemplo de POST
+
+<p align="center">
+ <img src="Evidencia/POST.png" widt>
+</p>
+
+### Ejemplo de PUT
+
+<p align="center">
+ <img src="Evidencia/PUT.png" widt>
+</p>
+
+### Ejemplo de Delete
+
+<p align="center">
+ <img src="Evidencia/DELETE.png" widt>
+</p>
+
+### Ejemplo de ERROR
+
+<p align="center">
+ <img src="Evidencia/DELETE2.png" widt>
+</p>
