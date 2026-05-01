@@ -112,7 +112,7 @@ La API expone endpoints para realizar operaciones de Crear, Leer, Actualizar y B
  <img src="Evidencia/Consulta3.png" widt>
 </p>
 
-
+## Ejemplo de Colecciones
 
 ### Ejemplo de GET
 
